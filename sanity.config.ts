@@ -23,8 +23,8 @@ import { visionTool } from "@sanity/vision";
 import { schemaTypes } from "./schema";
 
 export default defineConfig({
-  name: "project-name",
-  title: "Project Name",
+  name: "astro-cms",
+  title: "astro-cms",
   projectId,
   dataset,
   plugins: [deskTool(), visionTool()],
