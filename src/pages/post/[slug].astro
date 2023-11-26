@@ -1,21 +1,19 @@
 ---
-import type { InferGetStaticParamsType } from 'astro';
 import { PortableText } from 'astro-portabletext';
 import Layout from '../../layouts/Layout.astro';
 import { formatDate } from '../../utils';
-import { urlFor } from '../../utils/image';
-import { getPost, getPosts } from '../../utils/sanity';
+import { urlFor } from '../../utils/image.js';
+import { getPost } from '../../utils/sanity.js';
 
 // export async function getStaticPaths() {
-//   const posts = await getPosts();
-//   return posts.map((post) => ({
-//     params: { slug: post.slug.current },
-//   }));
+// 	const posts = await getPosts();
+// 	return posts.map((post) => ({
+// 		params: { slug: post.slug.current }
+// 	}));
 // }
-
 export const prerender = false;
-type Params = InferGetStaticParamsType<typeof Astro.params>;
-const { slug } = Astro.params as Params;
+
+const slug = Astro.params.slug;
 
 const post = await getPost(slug);
 ---
@@ -35,9 +33,13 @@ const post = await getPost(slug);
 		}
 		<div class="post__container">
 			<h1 class="post__title">{post.title}</h1>
+			<p class="post__excerpt">{post.excerpt}</p>
 			<p class="post__date">
 				{formatDate(post._createdAt)}
 			</p>
+			<div class="post__content">
+				<PortableText value={post.body} />
+			</div>
 		</div>
 	</section>
 </Layout>
