@@ -5,14 +5,13 @@ const {
   PUBLIC_SANITY_STUDIO_PROJECT_ID,
   PUBLIC_SANITY_STUDIO_DATASET,
   PUBLIC_SANITY_PROJECT_ID,
-  PUBLIC_SANITY_DATASET,
+  PUBLIC_SANITY_DATASET
 } = loadEnv(import.meta.env.MODE, process.cwd(), "");
 import { defineConfig } from "astro/config";
 
 // Different environments use different variables
 const projectId = PUBLIC_SANITY_STUDIO_PROJECT_ID || PUBLIC_SANITY_PROJECT_ID;
 const dataset = PUBLIC_SANITY_STUDIO_DATASET || PUBLIC_SANITY_DATASET;
-
 import sanity from "@sanity/astro";
 import react from "@astrojs/react";
 
@@ -20,11 +19,15 @@ import react from "@astrojs/react";
 // https://docs.astro.build/en/guides/server-side-rendering/#adding-an-adapter
 import vercel from "@astrojs/vercel/serverless";
 
+import node from "@astrojs/node";
+
 // https://astro.build/config
 export default defineConfig({
   // Hybrid+adapter is required to support embedded Sanity Studio
   output: "hybrid",
-  adapter: vercel(),
+  adapter: node({
+    mode: "standalone"
+  }),
   integrations: [sanity({
     projectId,
     dataset,
